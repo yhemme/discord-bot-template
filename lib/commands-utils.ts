@@ -2,13 +2,11 @@ import { CommandInteraction, SlashCommandBuilder } from "discord.js"
 import path from "node:path"
 import { fileURLToPath, pathToFileURL } from "node:url"
 import fs from "fs"
+import { Command } from "../types/commands.ts"
 
-export interface Command {
-  data: InstanceType<typeof SlashCommandBuilder>
-  execute: (interaction: CommandInteraction) => Promise<void>
-}
-
-export async function getCommandsFromPath(foldersPath: string): Promise<Array<Command>> {
+export async function getCommandsFromPath(
+  foldersPath: string
+): Promise<Array<Command>> {
   const commands: Array<Command> = []
   if (!fs.existsSync(foldersPath)) {
     // Nothing to load if the directory doesn't exist
@@ -54,6 +52,6 @@ export async function getCommandsFromFolders(): Promise<Array<Command>> {
   const __filename = fileURLToPath(import.meta.url)
   const __dirname = path.dirname(__filename)
   const commandsPath = path.join(__dirname, "../commands")
-  
+
   return await getCommandsFromPath(commandsPath)
 }

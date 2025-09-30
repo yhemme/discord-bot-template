@@ -13,11 +13,17 @@ const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
 async function registerCommands() {
   client.commands = new Collection<string, any>()
+  client.getCommand = (name: string) => client.commands.get(name)
   const commands = await getCommandsFromFolders()
   console.log(`Loading ${commands.length} commands`)
   for (const command of commands) {
-    client.commands.set(command.data.name, command.execute)
+    client.commands.set(command.data.name, command)
   }
+}
+
+async function initializeCooldowns() {
+  client.cooldowns = new Collection<string, Collection<string, number>>()
+  client.getCooldowns = (name: string) => client.cooldowns.get(name)
 }
 
 async function registerEvents() {
@@ -39,6 +45,7 @@ async function registerEvents() {
 }
 
 await registerCommands()
+await initializeCooldowns()
 await registerEvents()
 
 // Log in to Discord with your client's token

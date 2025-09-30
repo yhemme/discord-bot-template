@@ -1,5 +1,5 @@
 import { CommandInteraction, SlashCommandBuilder } from "discord.js"
-import { Command } from "../../lib/commands-utils.ts"
+import { Command } from "../../types/commands.ts"
 
 const data = new SlashCommandBuilder()
   .setName("server")

@@ -23,7 +23,7 @@
     "README.md"
   ],
   "scripts": {
-    "dev": "tsx scripts/dev.ts",
+    "dev": "tsx watch scripts/dev.ts",
     "deploy": "tsx scripts/deploy-commands.ts",
     "deploy:test": "tsx scripts/deploy-commands.ts --test",
     "deploy:global": "tsx scripts/deploy-commands.ts --global",
