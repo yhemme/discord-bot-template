@@ -134,24 +134,26 @@ npm run test:cov
    For development/testing (instant updates):
 
    ```bash
-   npm run deploy:test
+   pnpm run deploy:test
    ```
 
    For production (global commands, takes up to 1 hour):
 
    ```bash
-   npm run deploy:global
+   pnpm run deploy:global
    ```
 
    To see all deployment options:
 
    ```bash
-   npm run deploy
+   pnpm run deploy
    ```
 
 2. **Start the bot**:
+   There's currently no host tutorial or solution for this repository, only local.
+
    ```bash
-   npm start
+   pnpm run dev
    ```
 
 ## Contributing
@@ -169,9 +171,7 @@ This project is licensed under the ISC License.
 
 ## Author
 
-**Yohann Hemme**
-
-- Email: yohann.hemme@gmail.com
+**Yhemme**
 
 ---
 
