@@ -1,0 +1,68 @@
+{
+  "name": "discord-bot-template",
+  "version": "1.0.0",
+  "description": "A Discord bot template with TypeScript, slash commands, testing setup, deploy script and commands boiler-plate creation script",
+  "type": "module",
+  "main": "index.js",
+  "homepage": "https://github.com/yhemme/discord-bot-template#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yhemme/discord-bot-template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yhemme/discord-bot-template/issues"
+  },
+  "files": [
+    "src/",
+    "scripts/",
+    "commands/",
+    "lib/",
+    "index.js",
+    "index.ts",
+    "env.ts",
+    "README.md"
+  ],
+  "scripts": {
+    "dev": "tsx scripts/dev.ts",
+    "deploy": "tsx scripts/deploy-commands.ts",
+    "deploy:test": "tsx scripts/deploy-commands.ts --test",
+    "deploy:global": "tsx scripts/deploy-commands.ts --global",
+    "create:command": "tsx scripts/create-command.ts",
+    "test": "vitest run",
+    "test:watch": "vitest --watch",
+    "test:cov": "vitest run --coverage"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "discord-bot",
+    "typescript",
+    "template",
+    "slash-commands",
+    "discord.js"
+  ],
+  "author": {
+    "name": "yhemme"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@t3-oss/env-core": "^0.13.8",
+    "discord.js": "^14.22.1",
+    "dotenv": "^17.2.2",
+    "typescript": "^5.9.2",
+    "zod": "^4.1.11"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/node": "^24.6.0",
+    "@vitest/coverage-v8": "^3.2.4",
+    "discord-api-types": "^0.38.26",
+    "eslint": "^9.36.0",
+    "tsx": "^4.20.6",
+    "vitest": "^3.2.4"
+  }
+}
