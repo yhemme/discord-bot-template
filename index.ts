@@ -1,8 +1,8 @@
-// Require the necessary discord.js classes
-import { Client, Collection, Events, GatewayIntentBits } from "discord.js"
+import { Client, Collection, GatewayIntentBits } from "discord.js"
 import path from "node:path"
-import { fileURLToPath } from "node:url"
+import { fileURLToPath, pathToFileURL } from "node:url"
 import { getCommandsFromFolders } from "./lib/commands-utils.js"
+import fs from "node:fs"
 
 // ESM-compatible __dirname
 const __filename = fileURLToPath(import.meta.url)
@@ -11,48 +11,35 @@ const __dirname = path.dirname(__filename)
 // Create a new client instance
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
-// In-memory command registry
-const commandCollection = new Collection<string, any>()
-
-const commands = await getCommandsFromFolders()
-
-console.log(`Loading ${commands.length} commands`)
-for (const command of commands) {
-  commandCollection.set(command.data.name, command.execute)
+async function registerCommands() {
+  client.commands = new Collection<string, any>()
+  const commands = await getCommandsFromFolders()
+  console.log(`Loading ${commands.length} commands`)
+  for (const command of commands) {
+    client.commands.set(command.data.name, command.execute)
+  }
 }
 
-// When the client is ready, run this code (only once).
-// The distinction between `client: Client<boolean>` and `readyClient: Client<true>` is important for TypeScript developers.
-// It makes some properties non-nullable.
-client.once(Events.ClientReady, (readyClient) => {
-  console.log(`Ready! Logged in as ${readyClient.user.tag}`)
-})
+async function registerEvents() {
+  const eventsPath = path.join(__dirname, "events")
+  const eventFiles = fs
+    .readdirSync(eventsPath)
+    .filter((file) => file.endsWith(".ts") || file.endsWith(".js"))
 
-client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return
-  const command = commandCollection.get(interaction.commandName)
-  if (!command) {
-    console.warn(`No command matching ${interaction.commandName} was found.`)
-    return
-  }
-
-  try {
-    await command(interaction)
-  } catch (error) {
-    console.error(error)
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      })
+  for (const file of eventFiles) {
+    const filePath = path.join(eventsPath, file)
+    const module = await import(pathToFileURL(filePath).href)
+    const event = module.default ?? module
+    if (event.once) {
+      client.once(event.name, (...args) => event.execute(...args))
     } else {
-      await interaction.reply({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      })
+      client.on(event.name, (...args) => event.execute(...args))
     }
   }
-})
+}
+
+await registerCommands()
+await registerEvents()
 
 // Log in to Discord with your client's token
 client.login(process.env.TOKEN)
