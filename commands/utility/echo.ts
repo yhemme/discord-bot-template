@@ -38,11 +38,12 @@ async function execute(interaction: ChatInputCommandInteraction) {
   if (isEphemeral) {
     flags.push(MessageFlags.Ephemeral)
   }
-
+  await interaction.deferReply({
+    flags,
+  })
   if (channel !== null && "isTextBased" in channel && channel.isTextBased()) {
-    await interaction.deferReply({
-      flags,
-    })
+    console.log("Sending message to channel")
+
     await channel.send({
       content: message,
       files: attachment ? [attachment] : undefined,
@@ -51,7 +52,8 @@ async function execute(interaction: ChatInputCommandInteraction) {
       content: `Message sent to ${channel.name}`,
     })
   } else {
-    await interaction.reply({
+    console.log("No channel provided")
+    await interaction.editReply({
       content: message,
       flags,
       files: attachment ? [attachment] : undefined,

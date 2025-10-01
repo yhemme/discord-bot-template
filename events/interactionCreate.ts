@@ -78,16 +78,34 @@ const chatInputCommandCreateHandler = async (
     await command.execute(interaction)
   } catch (error) {
     console.error(error)
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      })
+
+    // Check if we can still respond to the interaction
+    if (!interaction.replied && !interaction.deferred) {
+      try {
+        await interaction.reply({
+          content: "There was an error while executing this command!",
+          flags: MessageFlags.Ephemeral,
+        })
+      } catch (replyError) {
+        console.error("Failed to send error reply:", replyError)
+      }
+    } else if (interaction.deferred && !interaction.replied) {
+      try {
+        await interaction.editReply({
+          content: "There was an error while executing this command!",
+        })
+      } catch (editError) {
+        console.error("Failed to edit error reply:", editError)
+      }
     } else {
-      await interaction.reply({
-        content: "There was an error while executing this command!",
-        ephemeral: true,
-      })
+      try {
+        await interaction.followUp({
+          content: "There was an error while executing this command!",
+          flags: MessageFlags.Ephemeral,
+        })
+      } catch (followUpError) {
+        console.error("Failed to send error follow-up:", followUpError)
+      }
     }
   }
 }
