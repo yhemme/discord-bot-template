@@ -70,8 +70,6 @@ async function promptDescription(rl: Interface): Promise<string> {
   }
 }
 
-
-
 // Let user pick target folder (root, existing subfolder, or create new)
 async function chooseTargetFolder(
   rl: Interface,
@@ -147,7 +145,7 @@ const data = new SlashCommandBuilder()
   .setName("${cmdName}")
   .setDescription("${description}")
 
-async function execute(interaction: CommandInteraction) {
+async function execute(interaction: ChatInputCommandInteraction) {
   // TODO: implement command logic
    await interaction.reply("Empty command")
 }

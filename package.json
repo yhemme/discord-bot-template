@@ -27,6 +27,7 @@
     "deploy": "tsx scripts/deploy-commands.ts",
     "deploy:test": "tsx scripts/deploy-commands.ts --test",
     "deploy:global": "tsx scripts/deploy-commands.ts --global",
+    "unregister": "tsx scripts/unregister-commands.ts",
     "create:command": "tsx scripts/create-command.ts",
     "test": "vitest run",
     "test:watch": "vitest --watch",

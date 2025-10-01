@@ -57,7 +57,7 @@ export function computeImportPath(
 ): string {
   const raw = path.relative(
     targetDir,
-    path.join(projectRoot, "lib", "commands-utils.ts")
+    path.join(projectRoot, "types", "commands.ts")
   )
   const normalized =
     raw.startsWith(".") || raw.startsWith("/") ? raw : `./${raw}`
