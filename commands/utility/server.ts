@@ -1,11 +1,11 @@
-import { CommandInteraction, SlashCommandBuilder } from "discord.js"
+import { ChatInputCommandInteraction, SlashCommandBuilder } from "discord.js"
 import { Command } from "../../types/commands.ts"
 
 const data = new SlashCommandBuilder()
   .setName("server")
   .setDescription("Provides information about the server.")
 
-async function execute(interaction: CommandInteraction) {
+async function execute(interaction: ChatInputCommandInteraction) {
   await interaction.deferReply()
   await new Promise((resolve) => setTimeout(resolve, 3000))
   // interaction.guild is the object representing the Guild in which the command was run
